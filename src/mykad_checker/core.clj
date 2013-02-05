@@ -27,9 +27,6 @@
     {"__VIEWSTATE" viewstate "__EVENTVALIDATION" event-vali "__EVENTTARGET" "" 
      "__EVENTARGUMENT" "" "Semak" "Semak" "txtIC" ic-number}))
 
-(defn prepare-params
-  [icno]
-  (get-params (fetch-url site-url) icno))
 
 (defn submit-check
   "Form submit params to check start check"
@@ -37,7 +34,12 @@
   (let [output (client/post site-url {:form-params params})
         html (html/html-resource (string-to-stream (:body output)))] html))
 
-(defn only-val [elem]
+(defn- prepare-params
+  "Simplify the preparetion of the vars and params needed"
+  [icno]
+  (get-params (fetch-url site-url) icno))
+
+(defn- only-val [elem]
   (.trim (first (:content (first elem)))))
 
 (defn extract-result 
